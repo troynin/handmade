@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "app_user",
+    "password": "app_password",
+    "database": "fullstack_app",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "app_user",
+    "password": "app_password",
+    "database": "fullstack_app",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "app_user",
+    "password": "app_password",
+    "database": "fullstack_app",
+    "host": "db",
+    "dialect": "postgres"
+  }
+}
