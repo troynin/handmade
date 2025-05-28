@@ -37,7 +37,13 @@ export function Header() {
           <Button color="inherit" component={RouterLink} to="/">
             Каталог
           </Button>
-          
+          {
+            user?.role === 'user' ? (
+              <Button color="inherit" component={RouterLink} to="/cart">
+                Корзина
+              </Button>
+            ) : null
+          }
           {authToken ? (
             <>
               <IconButton
@@ -53,7 +59,13 @@ export function Header() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => navigate('/admin')}>Админка</MenuItem>
+                {
+                  user?.role === 'admin' ? (
+                    <MenuItem onClick={() => navigate('/admin')}>
+                      Админка
+                    </MenuItem>
+                  ) : null
+                }
                 <MenuItem onClick={logout}>Выйти</MenuItem>
               </Menu>
             </>

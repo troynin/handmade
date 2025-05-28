@@ -8,6 +8,8 @@ import { Header } from './components/Header';
 import Catalog from './modules/Catalog';
 import AdminPanel from './modules/AdminPanel';
 import LoginPage from './modules/LoginPage';
+import RegisterPage from './modules/RegisterPage';
+import CartPage from './modules/Cart';
 
 const theme = createTheme();
 
@@ -20,6 +22,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Catalog />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path="/admin" element={<AdminPanel />} />
           </Routes>
         </Container>

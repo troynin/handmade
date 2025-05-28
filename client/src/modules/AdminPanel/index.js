@@ -20,22 +20,35 @@ import { Add, Edit, Delete } from '@mui/icons-material';
 import ToyForm from './components/ToyForm';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { API_URL } from '../../config'
 
 export default function AdminPanel() {
   const [toys, setToys] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentToy, setCurrentToy] = useState(null);
   const { authToken } = useAuth();
 
   const fetchToys = async () => {
-    const res = await axios.get('http://localhost:5000/api/toys');
+    const res = await axios.get(API_URL + '/api/toys');
     setToys(res.data.toys);
   };
 
-  useEffect(() => { fetchToys(); }, []);
+  const fetchOrders = async () => {
+    const res = await axios.get(`${API_URL}/api/order/list`, {
+      headers: { Authorization: `Bearer ${authToken}` }
+    });
+    setOrders(res.data.orders);
+  };
+
+  useEffect(() => {
+    fetchToys();
+    fetchOrders();
+  }, []);
+
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/toys/${id}`, {
+    await axios.delete(`${API_URL}/api/toys/${id}`, {
       headers: { Authorization: `Bearer ${authToken}` }
     });
     fetchToys();
@@ -90,6 +103,33 @@ export default function AdminPanel() {
                     <Delete color="error" />
                   </IconButton>
                 </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Typography variant="h5" sx={{ mt: 5, mb: 2 }}>Заказы</Typography>
+      <TableContainer component={Paper} sx={{ mb: 4 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Пользователь</TableCell>
+              <TableCell>Игрушка</TableCell>
+              <TableCell>Кол-во</TableCell>
+              <TableCell>Сумма</TableCell>
+              <TableCell>Дата заказа</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order.id}>
+                <TableCell>{order.id}</TableCell>
+                <TableCell>{order.User?.name || 'Неизвестно'}</TableCell>
+                <TableCell>{order.Toy?.name || 'Удалено'}</TableCell>
+                <TableCell>{order.quantity}</TableCell>
+                <TableCell>{order.totalPrice} ₽</TableCell>
+                <TableCell>{new Date(order.createdAt).toLocaleString()}</TableCell>
               </TableRow>
             ))}
           </TableBody>

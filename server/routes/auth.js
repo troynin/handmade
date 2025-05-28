@@ -1,38 +1,54 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import models from '../models/index.js'
+import { authMiddleware } from '../middleware/auth.js';
 const router = express.Router();
 
-const users = [
-  { id: 1, email: 'admin@example.com', password: 'admin123', name: 'Администратор' }
-];
+const User = models.User
 
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find(u => u.email === email && u.password === password);
-  
-  if (!user) {
-    return res.status(401).json({ message: 'Неверные учетные данные' });
+// Регистрация
+router.post('/register', async (req, res) => {
+  const { name, password } = req.body;
+  try {
+    const user = await User.create({ name, password, role: 'user' });
+    res.status(201).json({
+      message: 'Пользователь создан',
+      user: { id: user.id, name: user.name, role: user},
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-
-  const token = jwt.sign(
-    { userId: user.id }, 
-    process.env.JWT_SECRET, 
-    { expiresIn: '1h' }
-  );
-
-  res.json({ token });
 });
 
-router.get('/me', (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  
+// Авторизация
+router.post('/login', async (req, res) => {
+  const { name, password } = req.body;
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = users.find(u => u.id === decoded.userId);
-    res.json(user);
-  } catch (err) {
-    res.status(401).json({ message: 'Недействительный токен' });
+    const user = await User.findOne({ where: { name } });
+    if (!user){
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+
+    const isPasswordValid = password === user.password;
+    if (!isPasswordValid){
+      return res.status(401).json({ error: 'Неверный пароль' });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, role: user.role, name: user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.json({ token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
+});
+
+// Проверка авторизованности (доступен только с токеном)
+router.get('/me', authMiddleware, (req, res) => {
+  res.json(req.user);
 });
 
 export default router;

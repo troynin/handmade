@@ -58,7 +58,6 @@ router.get('/:id', async (req, res) => {
 // Создание новой игрушки
 router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
   try {
-    console.log(req)
     const toyData = {
       ...req.body,
       imageUrl: req.file ? req.file.path : null,

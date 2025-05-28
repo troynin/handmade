@@ -64,7 +64,6 @@ services:
       - server
     environment:
       - NODE_ENV=development
-      - REACT_APP_API_URL=http://server:5000
       - USER_ID=${UID}
       - GROUP_ID=${GID}
     ports:

@@ -1,7 +1,7 @@
 'use strict';
 
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable('Toys', {
+  await queryInterface.createTable('Users', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -12,40 +12,32 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false
     },
-    height: {
-      type: Sequelize.INTEGER,
+    email: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
-    width: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    weight: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    description: {
+    password: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    price: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    imageUrl: {
-      type: Sequelize.STRING,
+    role: {
+      type: Sequelize.ENUM('user', 'admin'),
+      allowNull: false,
+      defaultValue: 'user'
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
   });
 }
 
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.dropTable('Toys');
+  return queryInterface.dropTable('Users');
 }

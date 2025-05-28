@@ -12,7 +12,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
@@ -22,7 +22,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     
-    const result = await login(email, password);
+    const result = await login(name, password);
     if (!result.success) {
       setError(result.error);
     }
@@ -47,11 +47,11 @@ export default function LoginPage() {
               margin="normal"
               required
               fullWidth
-              label="Email"
-              autoComplete="email"
+              label="Имя"
+              autoComplete="name"
               autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             
             <TextField

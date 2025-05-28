@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 
 import toysRouter from './routes/toys.js'
 import authRouter from './routes/auth.js';
+import orderRouter from './routes/orders.js';
 import db from './models/index.js';
 
 dotenv.config();
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 5000;
   }
 })();
 
+
 // Middleware
 app.use(cors({
   origin: '*', // или перечисли конкретные если нужно
@@ -30,6 +32,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
+app.use('/api/order', orderRouter)
 app.use('/api/toys', toysRouter);
 app.use('/api/auth', authRouter);
 

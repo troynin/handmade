@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '../../../context/AuthContext';
+import { API_URL } from '../../../config';
 
 export default function ToyForm({ toy, onSuccess }) {
   const { authToken } = useAuth();
@@ -57,9 +58,9 @@ export default function ToyForm({ toy, onSuccess }) {
       };
       
       if (toy) {
-        await axios.put(`http://localhost:5000/api/toys/${toy.id}`, formDataToSend, config);
+        await axios.put(`${API_URL}/api/toys/${toy.id}`, formDataToSend, config);
       } else {
-        await axios.post('http://localhost:5000/api/toys', formDataToSend, config);
+        await axios.post(API_URL + '/api/toys', formDataToSend, config);
       }
       onSuccess();
     } catch (error) {

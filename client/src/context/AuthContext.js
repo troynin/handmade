@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { API_URL } from '../config';
 
 export const AuthContext = createContext();
 
@@ -17,7 +18,7 @@ export function AuthProvider({ children }) {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/auth/me', {
+      const res = await axios.get(API_URL + '/api/auth/me', {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       setUser(res.data);
@@ -27,13 +28,12 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const login = async (email, password) => {
+  const login = async (name, password) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { 
-        email, 
+      const res = await axios.post(API_URL + '/api/auth/login', { 
+        name, 
         password 
       });
-      
       localStorage.setItem('token', res.data.token);
       setAuthToken(res.data.token);
       navigate('/');
@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('token');
     setAuthToken(null);
     setUser(null);
-    navigate('http://localhost:5000/login');
+    navigate('/login');
   };
 
   return (

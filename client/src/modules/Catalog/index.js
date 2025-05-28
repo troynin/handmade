@@ -13,6 +13,8 @@ import {
   Pagination
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { API_URL } from '../../config'
+import AddToCartButton from './components/AddToCartButton';
 
 const StyledCard = styled(Card)({
   height: '100%',
@@ -42,7 +44,7 @@ export default function Catalog() {
   useEffect(() => {
     const fetchToys = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/toys');
+        const response = await fetch(API_URL + '/api/toys');
         const data = await response.json();
         setToys(data.toys);
         setTotalPages(data.totalPages);
@@ -92,7 +94,7 @@ export default function Catalog() {
           <Grid item key={toy.id} xs={12} sm={6} md={4} size={4}>
             <StyledCard>
               <StyledMedia
-                image={toy.imageUrl != null ? `http://localhost:5000/${toy.imageUrl}` : '/default-toy.jpg'}
+                image={toy.imageUrl != null ? `${API_URL}/${toy.imageUrl}` : '/default-toy.jpg'}
                 title={toy.name}
               />
               <CardContent>
@@ -107,9 +109,7 @@ export default function Catalog() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary">
-                  Подробнее
-                </Button>
+                <AddToCartButton toy={toy} />
                 <Typography variant="h6" style={{ marginLeft: 'auto' }}>
                   {toy.price} ₽
                 </Typography>
