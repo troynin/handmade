@@ -8,6 +8,7 @@ const RegisterPage = () => {
   const [form, setForm] = useState({
     name: '',
     password: '',
+    email: '',
     role: 'user'
   });
 
@@ -26,7 +27,12 @@ const RegisterPage = () => {
     try {
       const response = await axios.post(API_URL + '/api/auth/register', form);
       setSuccess(response.data.message);
-      setForm({ name: '', password: '', role: 'user' });
+      setForm({ 
+        name: '',
+        password: '',
+        role: 'user',
+        email: ''
+      });
       navigate('/login')
     } catch (err) {
       setError(err.response?.data?.error || 'Ошибка регистрации');
@@ -58,6 +64,15 @@ const RegisterPage = () => {
             name="password"
             type="password"
             value={form.password}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={form.email}
             onChange={handleChange}
             fullWidth
             required

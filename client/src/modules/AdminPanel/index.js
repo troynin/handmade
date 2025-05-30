@@ -115,6 +115,7 @@ export default function AdminPanel() {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Пользователь</TableCell>
+              <TableCell>Email</TableCell>
               <TableCell>Игрушка</TableCell>
               <TableCell>Кол-во</TableCell>
               <TableCell>Сумма</TableCell>
@@ -126,6 +127,7 @@ export default function AdminPanel() {
               <TableRow key={order.id}>
                 <TableCell>{order.id}</TableCell>
                 <TableCell>{order.User?.name || 'Неизвестно'}</TableCell>
+                <TableCell>{order.User?.email|| 'Неизвестно'}</TableCell>
                 <TableCell>{order.Toy?.name || 'Удалено'}</TableCell>
                 <TableCell>{order.quantity}</TableCell>
                 <TableCell>{order.totalPrice} ₽</TableCell>

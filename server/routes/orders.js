@@ -33,7 +33,7 @@ router.post('/create', authMiddleware, async (req, res) => {
 router.get('/list', authMiddleware, async (req, res) => {
   const orders = await Order.findAll({
     include: [
-      { model: User, attributes: ['id', 'name' ] },
+      { model: User, attributes: ['id', 'name', 'email' ] },
       { model: Toy, attributes: ['id', 'name'] }
     ],
     order: [['createdAt', 'DESC']]

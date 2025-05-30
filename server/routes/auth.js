@@ -8,9 +8,9 @@ const User = models.User
 
 // Регистрация
 router.post('/register', async (req, res) => {
-  const { name, password } = req.body;
+  const { name, password, email } = req.body;
   try {
-    const user = await User.create({ name, password, role: 'user' });
+    const user = await User.create({ name, password, role: 'user', email });
     res.status(201).json({
       message: 'Пользователь создан',
       user: { id: user.id, name: user.name, role: user},

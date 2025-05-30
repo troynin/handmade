@@ -26,7 +26,6 @@ const CartPage = () => {
     }
 
     try {
-      // пример отправки корзины на сервер
       const response = await axios.post(
         API_URL + '/api/order/create',
         { items: list },
