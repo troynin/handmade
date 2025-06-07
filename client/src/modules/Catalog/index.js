@@ -17,12 +17,14 @@ import { API_URL } from '../../config'
 import AddToCartButton from './components/AddToCartButton';
 
 const StyledCard = styled(Card)({
+  width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
 });
 
 const StyledMedia = styled(CardMedia)({
+  width: '100%',
   paddingTop: '56.25%', // 16:9
 });
 
@@ -89,9 +91,9 @@ export default function Catalog() {
         }}
       />
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} sx={{ width: '100%' }}>
         {paginatedToys.map((toy) => (
-          <Grid item key={toy.id} xs={12} sm={6} md={4} size={4}>
+          <Grid item key={toy.id} size={{xs:12, sm:6, md:4, lg:4}} >
             <StyledCard>
               <StyledMedia
                 image={toy.imageUrl != null ? `${API_URL}/${toy.imageUrl}` : '/default-toy.jpg'}
